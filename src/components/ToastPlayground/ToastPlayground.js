@@ -3,30 +3,42 @@ import React, { useEffect, useState } from "react";
 import Button from "../Button";
 
 import styles from "./ToastPlayground.module.css";
-import Toast, { VARIANT_OPTIONS } from "../Toast/Toast";
+import { VARIANT_OPTIONS } from "../Toast/Toast";
+import ToastShelf from "../ToastShelf/ToastShelf";
 
 function ToastPlayground() {
   const [toastMessage, setToastMessage] = useState("");
   const [toastVariant, setToastVariant] = useState(VARIANT_OPTIONS[0]);
 
-  const [toast, setToast] = useState();
+  const [toasts, setToasts] = useState([]);
 
   useEffect(() => {
-    console.log({ toast });
+    console.log({ toasts });
 
     return () => {};
-  }, [toast]);
+  }, [toasts]);
 
   const createToast = (e) => {
     e.preventDefault();
-    setToast({
-      message: toastMessage,
-      variant: toastVariant,
-    });
+
+    if (!toastMessage.length) {
+      return;
+    }
+
+    setToasts([
+      ...toasts,
+      {
+        id: crypto.randomUUID(),
+        variant: toastVariant,
+        message: toastMessage,
+      },
+    ]);
+    setToastMessage("");
+    setToastVariant(VARIANT_OPTIONS[0]);
   };
 
-  const resetToast = () => {
-    setToast(null);
+  const handleRemoveToast = (id) => {
+    setToasts(toasts.filter((toast) => toast.id !== id));
   };
 
   return (
@@ -36,13 +48,7 @@ function ToastPlayground() {
         <h1>Toast Playground</h1>
       </header>
 
-      {toast && (
-        <Toast
-          variant={toast.variant}
-          message={toast.message}
-          onClose={resetToast}
-        />
-      )}
+      <ToastShelf toasts={toasts} onRemoveToast={handleRemoveToast} />
 
       <div className={styles.controlsWrapper}>
         <form onSubmit={createToast}>
