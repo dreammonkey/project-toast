@@ -6,13 +6,10 @@ import styles from "./ToastPlayground.module.css";
 import Toast, { VARIANT_OPTIONS } from "../Toast/Toast";
 
 function ToastPlayground() {
-  // const [toastMessage, setToastMessage] = useState("");
-  // const [toastVariant, setToastVariant] = useState(VARIANT_OPTIONS[0]);
+  const [toastMessage, setToastMessage] = useState("");
+  const [toastVariant, setToastVariant] = useState(VARIANT_OPTIONS[0]);
 
-  const [toast, setToast] = useState({
-    message: "",
-    variant: VARIANT_OPTIONS[0],
-  });
+  const [toast, setToast] = useState();
 
   useEffect(() => {
     console.log({ toast });
@@ -22,13 +19,14 @@ function ToastPlayground() {
 
   const createToast = (e) => {
     e.preventDefault();
+    setToast({
+      message: toastMessage,
+      variant: toastVariant,
+    });
   };
 
   const resetToast = () => {
-    setToast({
-      message: "",
-      variant: VARIANT_OPTIONS[0],
-    });
+    setToast(null);
   };
 
   return (
@@ -60,13 +58,8 @@ function ToastPlayground() {
               <textarea
                 id="message"
                 className={styles.messageInput}
-                value={toast.message}
-                onChange={(e) =>
-                  setToast({
-                    ...toast,
-                    message: e.target.value,
-                  })
-                }
+                value={toastMessage}
+                onChange={(e) => setToastMessage(e.target.value)}
               />
             </div>
           </div>
@@ -82,13 +75,8 @@ function ToastPlayground() {
                       type="radio"
                       name="variant"
                       value={variant}
-                      checked={toast.variant === variant}
-                      onChange={(e) =>
-                        setToast({
-                          ...toast,
-                          variant: e.target.value,
-                        })
-                      }
+                      checked={toastVariant === variant}
+                      onChange={(e) => setToastVariant(e.target.value)}
                     />
                     {variant}
                   </>
@@ -100,7 +88,7 @@ function ToastPlayground() {
           <div className={styles.row}>
             <div className={styles.label} />
             <div className={`${styles.inputWrapper} ${styles.radioWrapper}`}>
-              <Button>Pop Toast!</Button>
+              <Button onClick={createToast}>Pop Toast!</Button>
             </div>
           </div>
         </form>
