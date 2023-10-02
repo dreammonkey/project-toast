@@ -11,6 +11,20 @@ function ToastProvider({ children }) {
     return () => {};
   }, [toasts]);
 
+  React.useEffect(() => {
+    function onKeyUp(e) {
+      if (e.code === "Escape") {
+        setToasts([]);
+      }
+    }
+
+    window.addEventListener("keyup", onKeyUp);
+
+    return () => {
+      window.removeEventListener("keyup", onKeyUp);
+    };
+  }, [toasts]);
+
   const addToast = React.useCallback(
     ({ variant, message }) => {
       setToasts([
