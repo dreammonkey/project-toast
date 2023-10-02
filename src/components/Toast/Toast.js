@@ -25,10 +25,12 @@ function Toast({
   variant = VARIANT_OPTIONS[0],
   onClose,
 }) {
+  const Icon = ICONS_BY_VARIANT[variant];
+
   return (
     <div className={`${styles.toast} ${styles[variant]}`}>
       <div className={styles.iconContainer}>
-        <Info size={24} />
+        <Icon size={24} />
       </div>
       <p className={styles.content}>{message}</p>
       <button className={styles.closeButton} onClick={onClose}>
