@@ -1,22 +1,17 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 
 import Button from "../Button";
 
 import styles from "./ToastPlayground.module.css";
 import { VARIANT_OPTIONS } from "../Toast/Toast";
 import ToastShelf from "../ToastShelf/ToastShelf";
+import { ToastContext } from "../ToastProvider/ToastProvider";
 
 function ToastPlayground() {
-  const [toastMessage, setToastMessage] = useState("");
-  const [toastVariant, setToastVariant] = useState(VARIANT_OPTIONS[0]);
+  const [toastMessage, setToastMessage] = React.useState("");
+  const [toastVariant, setToastVariant] = React.useState(VARIANT_OPTIONS[0]);
 
-  const [toasts, setToasts] = useState([]);
-
-  useEffect(() => {
-    console.log({ toasts });
-
-    return () => {};
-  }, [toasts]);
+  const { toasts, addToast, removeToast } = React.useContext(ToastContext);
 
   const createToast = (e) => {
     e.preventDefault();
@@ -25,20 +20,13 @@ function ToastPlayground() {
       return;
     }
 
-    setToasts([
-      ...toasts,
-      {
-        id: crypto.randomUUID(),
-        variant: toastVariant,
-        message: toastMessage,
-      },
-    ]);
+    addToast({
+      variant: toastVariant,
+      message: toastMessage,
+    });
+
     setToastMessage("");
     setToastVariant(VARIANT_OPTIONS[0]);
-  };
-
-  const handleRemoveToast = (id) => {
-    setToasts(toasts.filter((toast) => toast.id !== id));
   };
 
   return (
@@ -48,7 +36,7 @@ function ToastPlayground() {
         <h1>Toast Playground</h1>
       </header>
 
-      <ToastShelf toasts={toasts} onRemoveToast={handleRemoveToast} />
+      <ToastShelf toasts={toasts} onRemoveToast={removeToast} />
 
       <div className={styles.controlsWrapper}>
         <form onSubmit={createToast}>
