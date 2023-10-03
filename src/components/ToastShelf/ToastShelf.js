@@ -19,7 +19,6 @@ function ToastShelf({ toasts = [], onRemoveToast }) {
             onClose={(e) => onRemoveToast(toast.id)}
           >
             <div class="VisuallyHidden_wrapper">{toast.variant} -</div>
-            {toast.message}
           </Toast>
         </li>
       ))}
