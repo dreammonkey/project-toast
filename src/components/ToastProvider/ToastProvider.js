@@ -1,29 +1,20 @@
 import React from "react";
+import useKeyUp from "../../hooks/useKeyUp";
 
 export const ToastContext = React.createContext();
 
 function ToastProvider({ children }) {
   const [toasts, setToasts] = React.useState([]);
 
-  React.useEffect(() => {
-    console.log({ toasts });
+  // React.useEffect(() => {
+  //   console.log({ toasts });
 
-    return () => {};
-  }, [toasts]);
+  //   return () => {};
+  // }, [toasts]);
 
-  React.useEffect(() => {
-    function onKeyUp(e) {
-      if (e.code === "Escape") {
-        setToasts([]);
-      }
-    }
-
-    window.addEventListener("keyup", onKeyUp);
-
-    return () => {
-      window.removeEventListener("keyup", onKeyUp);
-    };
-  }, [toasts]);
+  useKeyUp(() => {
+    setToasts([]);
+  }, "Escape");
 
   const addToast = React.useCallback(
     ({ variant, message }) => {

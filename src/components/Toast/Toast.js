@@ -7,8 +7,6 @@ import {
   X,
 } from "react-feather";
 
-import VisuallyHidden from "../VisuallyHidden";
-
 import styles from "./Toast.module.css";
 
 export const VARIANT_OPTIONS = ["notice", "warning", "success", "error"];
