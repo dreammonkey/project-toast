@@ -1,6 +1,6 @@
 import React from "react";
 
-export default function useKeyUp(callback, keyCode) {
+export default function useKeyUp(keyCode, callback) {
   React.useEffect(() => {
     function onKeyUp(e) {
       if (e.code === keyCode) {

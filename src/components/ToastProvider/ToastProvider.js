@@ -12,9 +12,11 @@ function ToastProvider({ children }) {
   //   return () => {};
   // }, [toasts]);
 
-  useKeyUp(() => {
+  const handleEscape = React.useCallback(() => {
     setToasts([]);
-  }, "Escape");
+  }, []);
+
+  useKeyUp("Escape", handleEscape);
 
   const addToast = React.useCallback(
     ({ variant, message }) => {
