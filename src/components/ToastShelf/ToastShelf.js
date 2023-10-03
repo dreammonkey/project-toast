@@ -5,7 +5,12 @@ import styles from "./ToastShelf.module.css";
 
 function ToastShelf({ toasts = [], onRemoveToast }) {
   return (
-    <ol className={styles.wrapper}>
+    <ol
+      className={styles.wrapper}
+      role="region"
+      aria-live="polite"
+      aria-label="Notification"
+    >
       {toasts.map((toast) => (
         <li key={toast.id} className={styles.toastWrapper}>
           <Toast
@@ -13,7 +18,8 @@ function ToastShelf({ toasts = [], onRemoveToast }) {
             variant={toast.variant}
             onClose={(e) => onRemoveToast(toast.id)}
           >
-            {toast.message}{" "}
+            <div class="VisuallyHidden_wrapper">{toast.variant} -</div>
+            {toast.message}
           </Toast>
         </li>
       ))}
